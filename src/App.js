@@ -1,6 +1,7 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import './App.css';
+import VideoChat from './VideoChat';
 
 function App() {
   const [currentTime, setCurrentTime] = useState(0);
@@ -12,18 +13,22 @@ function App() {
   }, []);
 
   return (
-    <div className="App">
-      <h1>Flask and Twilio Video Conference</h1>
-      <form>
-        <label>
-          Name:
-          <input type="text" name="username" />
-        </label>
-        <input type="submit" value="Submit" />
-        </form>
-
-      <p name="count"></p>
-      <p>The current time is {currentTime}.</p>
+    <div className="app">
+      <header>
+        <h1>Twilio and Flask Video Chat</h1>
+      </header>
+      <main>
+        <VideoChat />
+      </main>
+      <footer>
+        <p>
+          Made with{' '}
+          <span role="img" aria-label="React">
+            ⚛
+          </span>{' '}
+          by <a href="https://twitter.com/philnash">philnash</a>
+        </p>
+      </footer>
     </div>
   );
 }
