@@ -3,6 +3,7 @@ import Video from 'twilio-video';
 import Participant from './Participant';
 
 const Room = ({ roomName, token, handleLogout }) => {
+    console.log(token);
   const [room, setRoom] = useState(null);
   const [participants, setParticipants] = useState([]);
 
@@ -18,6 +19,7 @@ const Room = ({ roomName, token, handleLogout }) => {
     };
 
     Video.connect(token, {
+      
       name: roomName
     }).then(room => {
       setRoom(room);

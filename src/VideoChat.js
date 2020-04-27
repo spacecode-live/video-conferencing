@@ -18,10 +18,10 @@ const VideoChat = () => {
   const handleSubmit = useCallback(
     async event => {
       event.preventDefault();
-      const data = await fetch('/video/token', {
+      const data = await fetch('/login', {
         method: 'POST',
         body: JSON.stringify({
-          identity: username,
+          username: username,
           room: roomName
         }),
         headers: {
@@ -29,6 +29,26 @@ const VideoChat = () => {
         }
       }).then(res => res.json());
       setToken(data.token);
+      /*fetch('/login', {
+        method: 'POST',
+        body: JSON.stringify({'username': username})
+    }).then(res => res.json()).then(data => {
+        // join video call
+        Twilio.Video.connect(data.token).then(_room => {
+            room = _room;
+            room.participants.forEach(participantConnected);
+            room.on('participantConnected', participantConnected);
+            room.on('participantDisconnected', participantDisconnected);
+            connected = true;
+            button.innerHTML = 'Leave call';
+            button.disabled = false;
+            updateParticipantCount();
+        });
+    }).catch(() => {
+        alert('Could not obtain token. Is the backend running?');
+        button.innerHTML = 'Join call';
+        button.disabled = false;
+    });*/
     },
     [roomName, username]
   );
