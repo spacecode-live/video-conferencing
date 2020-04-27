@@ -1,5 +1,6 @@
-import React, {useState, useCallback} from 'react';
+import React, { useState, useCallback } from 'react';
 import Lobby from './Lobby';
+import Room from './Room';
 
 const VideoChat = () => {
   const [username, setUsername] = useState('');
@@ -14,20 +15,23 @@ const VideoChat = () => {
     setRoomName(event.target.value);
   }, []);
 
-  const handleSubmit = useCallback(async event => {
-    event.preventDefault();
-    const data = await fetch('/video/token', {
-      method: 'POST',
-      body: JSON.stringify({
-        identity: username,
-        room: roomName
-      }),
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    }).then(res => res.json());
-    setToken(data.token);
-  }, [username, roomName]);
+  const handleSubmit = useCallback(
+    async event => {
+      event.preventDefault();
+      const data = await fetch('/video/token', {
+        method: 'POST',
+        body: JSON.stringify({
+          identity: username,
+          room: roomName
+        }),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }).then(res => res.json());
+      setToken(data.token);
+    },
+    [roomName, username]
+  );
 
   const handleLogout = useCallback(event => {
     setToken(null);
@@ -36,20 +40,16 @@ const VideoChat = () => {
   let render;
   if (token) {
     render = (
-      <div>
-        <p>Username: {username}</p>
-        <p>Room name: {roomName}</p>
-        <p>Token: {token}</p>
-      </div>
+      <Room roomName={roomName} token={token} handleLogout={handleLogout} />
     );
   } else {
     render = (
       <Lobby
-         username={username}
-         roomName={roomName}
-         handleUsernameChange={handleUsernameChange}
-         handleRoomNameChange={handleRoomNameChange}
-         handleSubmit={handleSubmit}
+        username={username}
+        roomName={roomName}
+        handleUsernameChange={handleUsernameChange}
+        handleRoomNameChange={handleRoomNameChange}
+        handleSubmit={handleSubmit}
       />
     );
   }
